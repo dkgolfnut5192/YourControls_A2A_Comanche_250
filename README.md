@@ -2,7 +2,7 @@
 YourControls_A2A_Comanche_250
 
 Profile to work with YourControls application and MSFS2020. If you find any bugs, please contact me on YourControls Discord: Dkgolfnut_Dennis
-
+# Ensure all Tablet config matches before starting  YC's session so they options will sync correctly 
 # Known Issues:
    - Flap Lever is not sinching due to B EVENT. Flaps deploy correctly
 
