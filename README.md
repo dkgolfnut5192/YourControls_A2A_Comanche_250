@@ -5,8 +5,15 @@ Profile to work with YourControls application and MSFS2020. If you find any bugs
 # Ensure all Tablet config matches before starting  YC's session so they options will sync correctly 
 # Known Issues:
    - Flap Lever is not sinching due to B EVENT. Flaps deploy correctly
+   - RPM on Totalizer will not sync
 
 # FIXED: 
+   OCT 13. 2024
+    - Added Totalizer information for engine management
+    - Added HSI BUG and COURSE CONTROL
+    - Added OVERHEAD flood light switch
+    - Added LVARS for RPM, MANIFOLD PRESSURE and FuelFlow Gauge
+    - Added EMERGENCY GEAR handle
    OCT 10. 2024
    - Added Transponder Knob functions
    - Added TABLET functionality for selectable states
