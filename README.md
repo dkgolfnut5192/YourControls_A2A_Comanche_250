@@ -9,11 +9,12 @@ Profile to work with YourControls application and MSFS2020. If you find any bugs
 
 # FIXED: 
    OCT 13. 2024
-    - Added Totalizer information for engine management
-    - Added HSI BUG and COURSE CONTROL
-    - Added OVERHEAD flood light switch
-    - Added LVARS for RPM, MANIFOLD PRESSURE and FuelFlow Gauge
-    - Added EMERGENCY GEAR handle
+   - Added Totalizer information for engine management
+   - Added HSI BUG and COURSE CONTROL
+   - Added OVERHEAD flood light switch
+   - Added LVARS for RPM, MANIFOLD PRESSURE and FuelFlow Gauge
+   - Added EMERGENCY GEAR handle
+   
    OCT 10. 2024
    - Added Transponder Knob functions
    - Added TABLET functionality for selectable states
