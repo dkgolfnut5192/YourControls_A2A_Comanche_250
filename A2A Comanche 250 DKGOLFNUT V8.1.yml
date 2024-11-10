@@ -1,0 +1,1010 @@
+# Version 8.1
+ # KNOWN ISSUES
+  # - Flap Lever is not sinching due to B EVENT. Flaps deploy correctly
+  # - RPM on Totalizer will not sync
+
+ # - FIXED
+  # Nov 10, 2024
+   # - added unreliable: true to numerous things that were spamming the log and killing the session
+  # OCT 13, 2024
+   # - Added Totalizer information for engine management
+   # - Added HSI BUG and COURSE CONTROL
+   # - Added OVERHEAD flood light switch
+   # - Added LVARS for RPM, MANIFOLD PRESSURE and FuelFlow Gauge
+   # - Added EMERGENCY GEAR handle
+  
+  # OCT 10, 2024
+   # - Added Transponder Knob functions
+   # - Added TABLET functionality for selectable states
+   # - Added Door LOCK, Handle, Vents and controls
+   # - Added Interpolate function for Ailerons and Calculator for Elevator and Rudder
+   # - Validated all Carb, Cabin, Vents to sync
+
+
+
+include:
+  - definitions/modules/autopilot.yaml
+#  - definitions/modules/controls.yaml
+  - definitions/modules/deice.yaml
+  - definitions/modules/electrical.yaml
+  - definitions/modules/engines.yaml
+  - definitions/modules/fuel.yaml
+  - definitions/modules/general.yaml
+  - definitions/modules/handling.yaml
+  - definitions/modules/lights.yaml
+  - definitions/modules/navigation.yaml
+  - definitions/modules/radios.yaml
+  - definitions/modules/safety.yaml
+  - definitions/modules/transponder.yaml
+  - definitions/modules/trim.yaml
+
+shared:
+  - # Interior
+    type: NumSet
+    var_name: A:LIGHT CABIN:1
+    var_units: Bool
+    var_type: i32
+    event_name: CABIN_LIGHTS_SET
+    event_param: 1
+  -
+    type: NumSet
+    var_name: A:LIGHT GLARESHIELD:1
+    var_units: Bool
+    var_type: i32
+    event_name: GLARESHIELD_LIGHTS_SET
+    event_param: 1
+
+#  - # LVARS
+#  - ############### ATITTUDE & SPEED INDICATORS ##############
+  - # STALL WARNING LIGHT
+    type: VAR
+    var_name: L:LightStallWarning
+  - # AirSpeed Indicator
+    type: VAR
+    var_name: L:AirspeedNeedle 
+    unreliable: true
+  - # AirSpeed Indicator
+    type: VAR
+    var_name: L:AirspeedIndicated 
+    unreliable: true
+#  - ############## AUTOPILOT LIGHTS, SWITCHES & FLAGS #############
+  - # AUTOPILOT MASTER SWITCH
+    type: VAR
+    var_name: L:ApMaster
+  - # AUTOPILOT MODE SELECTOR
+    type: VAR
+    var_name: L:ApTurnKnob
+  - # AUTOPILOT MODE PUSH SWITCH
+    type: VAR
+    var_name: L:ApModePushSwitch
+
+  - # Turn Coordinator Needle
+    type: VAR
+    var_name: L:TurnCoordNeedle
+    unreliable: true
+
+  - # AUTOPILOT ALTITUDE SWITCH
+    type: VAR
+    var_name: L:ApAltSwitch
+  - # AUTOPILOT DISCONNECT SWITCH
+    type: VAR
+    var_name: L:ApDisconnectSwitch
+#  - # HEADING FLAG
+#    type: VAR
+#    var_name: L:FlagHDG 
+#  - # NAVIGATION FLAG
+#    type: VAR
+#    var_name: L:FlagNAV
+  - # AP READY MODE LIGHT
+    type: VAR
+    var_name: L:ApRdyLight
+  - # AP ALTITUDE MODE LIGHT
+    type: VAR
+    var_name: L:ApAltLight
+  -
+    type: VAR
+    var_name: L:ApStLight
+  - # AP HEADING MODE LIGHT
+    type: VAR
+    var_name: L:ApHdLight 
+  - # AP TRACK LO MODE LIGHT
+    type: VAR
+    var_name: L:ApTrkLoLight
+  - # AP TRACK HI MODE LIGHT
+    type: VAR
+    var_name: L:ApTrkHiLight
+  - # AP TURN KNOB
+    type: VAR
+    var_name: L:ApTurnKnob
+  - # AP MODE PUSH SWITCH
+    type: VAR
+    var_name: L:ApModePushSwitch
+  - 
+    type: VAR
+    var_name: L:ApLowVoltageFlag 
+  - # AP TRIM UP LIGHT
+    type: VAR
+    var_name: L:ApTrimUpLight
+  - # AP TRIM DOWN LIGHT
+    type: VAR
+    var_name: L:ApTrimDnLight
+  - # 
+    type: VAR
+    var_name: L:HeadingSelectorPush 
+  - # 
+    type: VAR
+    var_name: L:AutopilotHeadingBug
+
+
+#  - ########### BREAKERS Below Panel ###############
+  - # BELOW MAIN PANEL - PILOTS KNEES
+    type: VAR
+    var_name: L:BreakerGaugesEngine
+  -
+    type: VAR
+    var_name: L:BreakerGeneratorOutput
+  -
+    type: VAR
+    var_name: L:BreakerHSI
+  -
+    type: VAR
+    var_name: L:BreakerLandingGearIndicator
+  -
+    type: VAR
+    var_name: L:BreakerLandingGearMotor 
+  -
+    type: VAR
+    var_name: L:BreakerLightBeacon
+  -
+    type: VAR
+    var_name: L:BreakerLightLanding
+  -
+    type: VAR
+    var_name: L:BreakerLightNav
+  -
+    type: VAR
+    var_name: L:BreakerNavCom1
+  -
+    type: VAR
+    var_name: L:BreakerNavCom2
+  -
+    type: VAR
+    var_name: L:BreakerPitotHeat
+  -
+    type: VAR
+    var_name: L:BreakerStarter
+  -
+    type: VAR
+    var_name: L:BreakerWarningStall
+    
+  - # UPPER MAIN PANEL - Right side
+    type: VAR
+    var_name: L:BreakerAutopilot
+  -
+    type: VAR
+    var_name: L:BreakerGaugesTurnCoord
+
+#  - ############# ELECTRICAL ITEMS ###############
+#  - # AMMETER NEEDLE
+#   type: VAR
+#   var_name: L:Ammeter1
+   
+#  - ############# FUEL TANKS ###############
+#  - # 
+#    type: VAR
+#    var_name: L:FuelLeftWingTipTank
+# - # 
+#    type: VAR
+#    var_name: L:FuelLeftWingTank
+#  - # 
+#    type: VAR
+#    var_name: L:FuelRightWingTank
+#  - # 
+#    type: VAR
+#    var_name: L:FuelRightWingTipTank
+    
+#  - ############# LANDING GEAR ###############
+  - # LANDING GEAR LEVER -  3 position
+    type: VAR
+    var_name: L:LandingGearLeverPos
+  - # 
+    type: VAR
+    var_name: L:LandingGearState 
+  - # 
+    type: VAR
+    var_name: L:LandingGearC
+  - # 
+    type: VAR
+    var_name: L:LandingGearR
+  - # 
+    type: VAR
+    var_name: L:LandingGearL 
+  - # LANDING GEAR LIGHTS INDICATORS
+    type: VAR
+    var_name: L:LGlights  
+  - # Emergency LANDING GEAR Lever
+    type: VAR
+    var_name: L:EmergencyGearLever  
+#  - ############# LIGHTS SWITCHES, PULLS and KNOBS ###############
+  - # 
+    type: VAR
+    var_name: L:Battery1Switch
+  - # 
+    type: VAR
+    var_name: L:General ENG FUEL PUMP SWITCH:1
+  - # 
+    type: VAR
+    var_name: L:Magnetos1
+  - # 
+    type: VAR
+    var_name: L:Magnetos1Switch
+  - # 
+    type: VAR
+    var_name: L:PitotHeatSwitch
+  - # AUX FUEL SWITCH
+    type: VAR
+    var_name: L:FuelIndicatorSwitch
+  - # FUEL flow Indicator
+    type: VAR
+    var_name: L:Eng1_GPH
+    unreliable: true
+  - # Manifold Pressure Indicator
+    type: VAR
+    var_name: L:Eng1_ManifoldPressure
+    unreliable: true
+  - # ENG 1 RPM
+    type: VAR
+    var_name: L:Eng1_RPMGauge 
+    unreliable: true
+  - # ENG 1 RPM
+    type: VAR
+    var_name: L:Eng1_RPM
+    unreliable: true
+  - # ENG 1 RPM SMOOTH
+    type: VAR
+    var_name: L:Eng1_RPMSmooth    
+    unreliable: true
+  - # ENG 1 PROP RPM
+    type: VAR
+    var_name: L:Eng1_PropRPM
+    unreliable: true 
+  - # Vertical Speed 
+    type: VAR
+    var_name: L:VerticalSpeed
+    unreliable: true
+  - # 
+    type: VAR
+    var_name: L:LandingGearLeverPos
+  - # FUEL SLECTOR LEFT
+    type: VAR
+    var_name: L:FSelComancheLeftState
+  - # FUEL SELECTOR RIGHT
+    type: VAR
+    var_name: L:FSelComancheRightState
+  - # AUX FUEL SWITCH
+    type: VAR
+    var_name: L:FuelIndicatorSwitch
+  - # ENG1 START SWITCH
+    type: VAR
+    var_name: L:Eng1_StarterSwitch
+  - # NAV INSTRUMENT LIGHT PERCENTAGE 
+    type: VAR
+    var_name: L:NavInstrLightSwitchPct
+  - # LANDING LIGHTS ON
+    type: VAR
+    var_name: L:LandingLightsON
+  - # LANDING LIGHT - LEFT
+    type: VAR
+    var_name: L:LandingLightLeftSwitch
+  - # LANDING LIGHT - RIGHT
+    type: VAR
+    var_name: L:LandingLightRightSwitch
+  - # 
+    type: VAR
+    var_name: L:StrobeLightSwitch
+  - # 
+    type: VAR
+    var_name: L:BeaconLightSwitch
+  - # CABIN RED OVERHEAD LIGHT
+    type: VAR
+    var_name: L:CabinRedLightSwitch
+  - # CABIN FLOOD LIGHT
+    type: VAR
+    var_name: L:CabinFlood1LightSwitch
+  - # CARB HEAT 
+    type: VAR
+    var_name: L:ENG1_CarbHeatSwitch
+  - # PRIMER LOCK ROTATE
+    type: VAR
+    var_name: L:PrimerScrew
+  - # PRIMER
+    type: VAR
+    var_name: L:Primer
+#  - # PRIMER PUMP PLUNGER
+#   type: VAR
+#   var_name: L:Eng1_FuelPrimer
+  - # PRIMER PUMP PLUNGER
+   type: VAR
+   var_name: L:PrimerPump
+  - # CABIN VENT LEFT
+    type: VAR
+    var_name: L:CabinVentLeftLever
+  - # CABIN VENT RIGHT
+    type: VAR
+    var_name: L:CabinVentRightLever
+  - # CABIN HEAT MIXER
+    type: VAR
+    var_name: L:CabinTempControl
+  - # WINDOW DEFROST
+    type: VAR
+    var_name: L:WindowDeFrosterContgrolKnob
+  - # PARKING BRAKE
+    type: VAR
+    var_name: L:ParkingBrakePosition
+  - # THROTTLE POSITION
+    type: VAR
+    var_name: L:Throttle1Position
+  - # MIXTURE LEVER 
+    type: VAR
+    var_name: L:Eng1_MixtureManualLever
+  - # PROP LEVER POSITION
+    type: VAR
+    var_name: L:RPMLever1Position
+  - # FLAPS HANDLE POSITION
+    type: VAR
+    var_name: L:LandFlapsPos
+
+#  - ############# Totalizer PANEL  ###############
+  - # Fuel Remaining 
+    type: VAR
+    var_name: L:FuelTotalizerRemainingFuel
+    unreliable: true
+  - # Fuel Totalizer Used Fuel
+    type: VAR
+    var_name: L:FuelTotalizerUsedFuel
+    unreliable: true
+  - # Fuel Totalizer Fuel Consumption
+    type: VAR
+    var_name: L:FuelConsumptionCC
+    unreliable: true
+  - # ENG1 Horsepower
+    type: VAR
+    var_name: L:Eng1_Horsepower_PercentIndicated 
+    unreliable: true
+  - # Piston Temp 1 
+    type: VAR
+    var_name: L:Eng1_PistonTemp_1
+    unreliable: true
+  - # Piston Temp 2 
+    type: VAR
+    var_name: L:Eng1_PistonTemp_2
+    unreliable: true
+  - # Piston Temp 3 
+    type: VAR
+    var_name: L:Eng1_PistonTemp_3
+    unreliable: true
+  - # Piston Temp 4 
+    type: VAR
+    var_name: L:Eng1_PistonTemp_4
+    unreliable: true
+  - # Piston Temp 5 
+    type: VAR
+    var_name: L:Eng1_PistonTemp_5
+    unreliable: true
+  - # Piston Temp 6 
+    type: VAR
+    var_name: L:Eng1_PistonTemp_6
+    unreliable: true
+  - # Eng1_OilTemp
+    type: VAR
+    var_name: L:Eng1_OilTemp
+    unreliable: true
+  - # Eng1_CoolantTemp
+    type: VAR
+    var_name: L:Eng1_CoolantTemp
+    unreliable: true
+  - # Eng1_CarbAirTemp
+    type: VAR
+    var_name: L:Eng1_CarbAirTemp
+    unreliable: true
+  - # Eng1_Oil Pressure
+    type: VAR
+    var_name: L:Eng1_OilPressure
+    unreliable: true
+  - # Totalizer LF button LEFT
+    type: VAR
+    var_name: L:BUTTON_EDM730_Step
+  - # Totalizer LF button bottom right
+    type: VAR
+    var_name: L:BUTTON_EDM730_LF
+  - # Eng1_EGT_1
+    type: VAR
+    var_name: L:Eng1_EGT_1
+    unreliable: true
+  - # Eng1_EGT_2
+    type: VAR
+    var_name: L:Eng1_EGT_2
+    unreliable: true
+  - # Eng1_EGT_3
+    type: VAR
+    var_name: L:Eng1_EGT_3  
+    unreliable: true
+  - # Eng1_EGT_4
+    type: VAR
+    var_name: L:Eng1_EGT_4
+    unreliable: true
+  - # Eng1_EGT_5
+    type: VAR
+    var_name: L:Eng1_EGT_5
+    unreliable: true
+  - # Eng1_EGT_6
+    type: VAR
+    var_name: L:Eng1_EGT_6
+    unreliable: true
+  - # Eng1_EGTGauge
+    type: VAR
+    var_name: L:Eng1_EGTGauge
+    unreliable: true
+
+#  - ############# MISCELLANEOUS - Cabin, Cabin Vent, Cabin Temp, Cabin Fuel ###############
+#  - ############# MISCELLANEOUS - Doors, Yokes###############
+  - # ASHTRAY LEFT 
+    type: VAR
+    var_name: L:AshTray1Lid
+  - # ASHTRAY RIGHT
+    type: VAR
+    var_name: L:AshTray2Lid
+  - # GLOVE BOX ANIMATION
+    type: VAR
+    var_name: L:ControlsGlovebosAnim
+  - # Door 1 Vent Nozzle
+    type: VAR
+    var_name: L:CabinVent1Nozzle
+  - # Door 1 Vent KNOB
+    type: VAR
+    var_name: L:CabinVent1Lever
+  - # Door 2 Vent Nozzle
+    type: VAR
+    var_name: L:CabinVent2Nozzle
+  - # Door 2 Vent Knob
+    type: VAR
+    var_name: L:CabinVent2Lever
+  - # Left Visor
+    type: VAR
+    var_name: L:VisorLeftPercent
+  - # Right Visor
+    type: VAR
+    var_name: L:VisorRightPercent
+  - # EMERGENCY LANDING GEAR LEVER
+    type: VAR
+    var_name: L:LandingGearEmergencyHandle
+  - # YOKE LEFT VISIBILITY
+    type: VAR
+    var_name: L:YokeLeftVis   
+  - # YOKE RIGHT VISIBILITY
+    type: VAR
+    var_name: L:YokeRightVis    
+  - # Tablet
+    type: VAR
+    var_name: L:TabletStation
+#  - ############# MISCELLANEOUS - Tablet functions ###############
+  - # Parking Brake 
+    type: var
+    var_name: L:ParkingBrakePositionAnim
+  - #
+    type: var
+    var_name: L:ParkingBrakePosition
+  - # Wheel Chocks
+    type: var
+    var_name: L:WheelChockLAnim
+  - #
+    type: var
+    var_name: L:WheelChockRAnim
+  - #
+    type: var
+    var_name: L:vis_WheelChockL
+  - #
+    type: var
+    var_name: L:vis_WheelChockL
+  - # Tie Downs
+    type: var
+    var_name: L:vis_WingLeft_TieDown
+  - #
+    type: var
+    var_name: L:vis_WingRight_TieDown
+  - #
+    type: var
+    var_name: L:vis_Tail_TieDown
+  - # Controls Locks
+    type: var
+    var_name: L:ControlsLockLever
+  - #
+    type: var
+    var_name: L:BungeeCordVis
+  - # Pitot Cover 
+    type: var
+    var_name: L:PitotTubeCover
+  - # Main Door 1
+    type: var
+    var_name: L:Door1AutoOpen
+  - #
+    type: var
+    var_name: L:Door1Handle
+  - #
+    type: var
+    var_name: L:Door1Latch
+  - # Bggage Door
+    type: var
+    var_name: L:WALKAROUND_BaggageDoor_Click
+  - # Cabin Vents Left
+    type: var
+    var_name: L:CabinVentLeftLever
+  - #
+    type: var
+    var_name: L:CabinVentLever1
+  - # Cabin Vents Right
+    type: var
+    var_name: L:CabinVentRightLever
+  - #
+    type: var
+    var_name: L:CabinVentLever2
+  - # Cabin Heat Pull Knob
+    type: var
+    var_name: L:CabinTempControl
+  - # Defroster Pull Knob
+    type: var
+    var_name: L:WindowDefrosterControlKnob
+  - #
+    type: var
+    var_name: L:OnJacks
+  - #
+    type: var
+    var_name: L:VisJacks
+  - #
+    type: var
+    var_name: L:VisComancheJacks
+  - #
+    type: var
+    var_name: L:Eng1_ElectricHeater
+  - #
+    type: var
+    var_name: L:VisCrewOff
+  - #
+    type: var
+    var_name: L:GyroDriftOn
+  - #
+    type: var
+    var_name: L:GyroSoundOn
+  - #
+    type: var
+    var_name: L:TrimAcceleration
+  - #
+    type: var
+    var_name: L:TabletVolume
+  - #
+    type: var
+    var_name: L:CockpitPersistence
+  - #
+    type: var
+    var_name: L:AlimeterPressureUnits
+  - #
+    type: var
+    var_name: L:WarningSoundsVolume
+  - #
+    type: var
+    var_name: L:TabetBrightness
+  - #
+    type: var
+    var_name: L:RealisticParkingBrake
+  - #
+    type: var
+    var_name: L:TemperatureUnits
+  - #Advanced OPtions
+    type: var
+    var_name: L:AccuTurbulence
+  - #
+    type: var
+    var_name: L:TurbulenceStrength
+  - #
+    type: var
+    var_name: L:WearRate
+  - #
+    type: var
+    var_name: L:FailureRate
+  - # GPS CONFIGs for panel types
+    type: var
+    var_name: L:GPStype
+  - #
+    type: var
+    var_name: L:AvionicsConfiguration
+  - #
+    type: var
+    var_name: L:XMLVAR_GPS_DISABLED_AS430_1
+  - #
+    type: var
+    var_name: L:XMLVAR_GPS_DISABLED_AS530_1
+  - #
+    type: var
+    var_name: L:XMLVAR_GPS_DISABLED_GTN750
+  - #Fuel Configs Mtric Units
+    type: var
+    var_name: L:Units
+  - # Maintenance items - AIRFRAME MAY need to add Mods (1-6)
+    type: var
+    var_name: L:TipTank
+  - #
+    type: var
+    var_name: L:StabilizerTips
+  - #
+    type: var
+    var_name: L:FlapGapSeal
+  - #
+    type: var
+    var_name: L:WingFairings
+  - #
+    type: var
+    var_name: L:SlipperFairing
+  - #
+    type: var
+    var_name: L:MainGearLobes
+  - #
+    type: var
+    var_name: L:SoundProofing
+  - #
+    type: var
+    var_name: L:PropellerModel
+  - #
+    type: var
+    var_name: L:ENG1_PropModel
+  - # Maintenance items - ENGINE
+    type: var
+    var_name: L:Eng1_OilQuanity
+  - #
+    type: var
+    var_name: L:Eng1_OilGrade
+  - #
+    type: var
+    var_name: L:Eng1_OilAdditive
+  - #
+    type: var
+    var_name: L:Eng1_SparkPlugType
+  - #
+    type: var
+    var_name: L:Overhaul
+
+#  - ############# NAVIGATION ###############
+  - # NAV 1 OBS KNOB
+    type: NumSet
+    var_name: L:NAV OBS:1
+    var_units: Degrees
+    var_type: f64
+    event_name: GPS_OBS_SET
+    cancel_h_events: true
+    use_calculator: true
+
+  - # NAV 2 OBS KNOB
+    type: VAR
+    var_name: L:NAV OBS:2
+    
+#  - ############# RADIO STACK ###############    
+#  - # MBT-12 marker beacons indicator  
+  - # INNER MARKER PUSH TO TEST
+    type: VAR
+    var_name: L::PushToTestMBI 
+  - # INNER MARKER BRIGHTNESSS
+    type: VAR
+    var_name: L:PushToTestMBIKnob
+  - # INNER MARKER BULB
+    type: VAR
+    var_name: L:MarkerInnerLight
+  - # MIDDLE MARKER PUSH TO TEST
+    type: VAR
+    var_name: L:PushToTestMBM
+  - # MIDDLE MARKER BRIGHTNESSS
+    type: VAR
+    var_name: L:PushToTestMBMKnob
+  - # MIDDLE MARKER BULB
+    type: VAR
+    var_name: L:MarkerMiddleLight
+  - # OUTER MARKER PUSH TO TEST
+    type: VAR
+    var_name: L:PushToTestMBO
+  - # OUTER MARKER BRIGHTNESSS
+    type: VAR
+    var_name: L:PushToTestMBOKnob 
+  - # OUTER MARKER BULB
+    type: VAR
+    var_name: L:MarkerOuterLight
+
+#  - # Narco CP 136 audioselector
+  - # MARKER SENSITIVITY SWITCH HI/LO 
+    type: VAR
+    var_name: L:AudioSensSwitch
+  - # MARKER MUTE BUTTON
+    type: VAR
+    var_name: L:AudioMkrMuteSwitch
+  - # COM1/COM2 TOGGLE for Transmit
+    type: VAR
+    var_name: L:AudioComSwitch 
+  - # COM1 BUTTON
+    type: VAR
+    var_name: L:AudioCom1HpSwitch
+  - # COM2 BUTTON
+    type: VAR
+    var_name: L:AudioCom2HpSwitch
+  - # COM1/COM2 MONITOR BOTH - LISTEN
+    type: VAR
+    var_name: L:AudioBothHpSwitch
+  - # NAV1 Button
+    type: VAR
+    var_name: L:AudioNav1HpSwitch
+  - # NAV2 BUTTON
+    type: VAR
+    var_name: L:AudioNav2HpSwitch 
+  - # ADF1 BUTTON
+    type: VAR
+    var_name: L:AudioAdf1HpSwitch
+  - # MARKER/DME BUTTON
+    type: VAR
+    var_name: L:AudioMkrHpSwitch
+  - # SPEAKER BUTTON
+    type: VAR
+    var_name: L:AudioSpkrSwitch
+    
+#  - # Narco NCS 812 radio (1)
+  - # COM1 ON/OFF Volume
+    type: VAR
+    var_name: L:Com1OnOffVolume
+  - # COM1 ON/OFF PULL SWITCH
+    type: VAR
+    var_name: L:Com1OnOffPull
+  - #  COM1 FREQUENCY KNOB INNER
+    type: VAR
+    var_name: L:Com1FreqInnerKnob
+  - #  COM1 FREQUENCY KNOB OUTER
+    type: VAR
+    var_name: L:Com1FreqOuterKnob
+  - # COM1 ACTIVE/STANDBY SWITCH
+    type: VAR
+    var_name: L:Com1StbySwitch 
+  - #  NAV1 PULL IDENT VOLUME
+    type: VAR
+    var_name: L:Nav1PullIdentVolume
+  - #  NAV1 PULL IDENT
+    type: VAR
+    var_name: L:Nav1PullIdent
+  - # NAV1 ACTIVE/STANDBY SWITCH
+    type: VAR
+    var_name: L:Nav1StbySwitch
+  - # DME SELECTOR RANGE SWITCH
+    type: VAR
+    var_name: L:DmeFunction
+  - # ACTIVE RELEASE BUTTON
+    type: VAR
+    var_name: L:ActiveRecallSwitch
+
+#  - # Narco NCS 812 radio (2)
+  - # COM2 ON/OFF Volume
+    type: VAR
+    var_name: L:Com2OnOffVolume
+  - # COM2 ON/OFF PULL SWITCH
+    type: VAR
+    var_name: L:Com2OnOffPull
+  - #  COM2 FREQUENCY KNOB INNER
+    type: VAR
+    var_name: L:Com2FreqInnerKnob
+  - #  COM2 FREQUENCY KNOB OUTER
+    type: VAR
+    var_name: L:Com2FreqOuterKnob
+  - # COM2 ACTIVE/STANDBY SWITCH
+    type: VAR
+    var_name: L:Com2StbySwitch 
+  - #  NAV2 PULL IDENT VOLUME
+    type: VAR
+    var_name: L:Nav2PullIdentVolume
+  - #  NAV2 PULL IDENT
+    type: VAR
+    var_name: L:Nav2PullIdent
+  - # NAV2 ACTIVE/STANDBY SWITCH
+    type: VAR
+    var_name: L:Nav1StbySwitch
+    
+#  - # Narco AT 150  -  ###### Future #######
+#  - # Narco ADF 841
+  - # ADF1 FREQUENCY KNOB - INNER
+    type: VAR
+    var_name: L:AdfFreqInnerKnob
+  - # ADF1 FREQUENCY KNOB - OUTER
+    type: VAR
+    var_name: L:AdfFreqOuterKnob
+  - # ADF1 MODE SELECT SWITCH
+    type: VAR
+    var_name: L:AdfModeSelectSwitch
+  - # ADF1 ACTIVE/STANDBY SWITCH
+    type: VAR
+    var_name: L:AdfFrqButton 
+  - #ADF1 VOLUME KNOB
+    type: VAR
+    var_name: L:AdfOnOffKnobVolume
+  - # ADF1 FREQUENCY RESET BUTTON
+    type: VAR
+    var_name: L:FrqRstButton
+  - # ADF
+    type: NumSet
+    var_name: A:ADF ACTIVE FREQUENCY:1
+    var_units: Frequency ADF BCD32
+    var_type: i32
+    event_name: ADF_ACTIVE_SWAP
+    cancel_h_events: true
+  -
+    type: NumSet
+    var_name: A:ADF STANDBY FREQUENCY:1
+    var_units: Frequency ADF BCD32
+    var_type: i32
+    event_name: ADF_STBY_SWAP
+    cancel_h_events: true
+
+#  - # Narco Transponder
+  - # 
+    type: VAR
+    var_name: L:XpdrModeKnobPos
+  - # 
+    type: VAR
+    var_name: L:XpdrIdentSwitch
+  - #
+    type: VAR
+    var_name: L:XpdrIdentKnob
+
+  
+#  - ############# Controls for Synchronization ###############    
+
+  -
+    type: NumSet
+    var_name: A:BRAKE LEFT POSITION EX1
+    var_units: Position 32k
+    var_type: i32
+    add_by: -16384
+    event_name: AXIS_LEFT_BRAKE_SET
+    unreliable: true
+  -
+    type: NumSet
+    var_name: A:BRAKE RIGHT POSITION EX1
+    var_units: Position 32k
+    var_type: i32
+    add_by: -16384
+    event_name: AXIS_RIGHT_BRAKE_SET
+    unreliable: true
+  -
+    type: var
+    var_name: L:Pedals_Anim
+    unreliable: true
+#  -
+#    type: var
+#    var_name: L:AileronR_Anim
+#  -
+#    type: var
+#    var_name: L:AileronL_Anim
+#  -
+#    type: var
+#    var_name: L:Elevator_Anim
+#  -
+#    type: var
+#    var_name: L:Rudder_Anim
+#  - 
+#   type: var
+#   var_name: L:YokePitch_Anim
+  - 
+   type: var
+   var_name: L:YokeBank_Anim
+   unreliable: true
+master:
+ -
+   type: NumSet
+   var_name: A:AILERON POSITION
+   var_units: Position 16k
+   var_type: f64
+   multiply_by: -1
+   event_name: AXIS_AILERONS_SET
+   interpolate: Invert
+   unreliable: true
+ -
+   type: NumSet
+   var_name: A:ELEVATOR POSITION
+   var_units: Position 16k
+   var_type: f64
+   multiply_by: -1
+   event_name: AXIS_ELEVATOR_SET
+   use_calculator: true
+   unreliable: true
+
+ -
+   type: NumSet
+   var_name: A:RUDDER POSITION
+   var_units: Position 16k
+   var_type: f64
+   multiply_by: 1
+   event_name: AXIS_RUDDER_SET
+   interpolate: Invert
+   use_calculator: true
+   unreliable: true
+
+
+server:
+  -
+    type: var
+    var_name: A:FUEL TANK LEFT MAIN LEVEL
+    var_units: Percent
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:FUEL TANK RIGHT MAIN LEVEL
+    var_units: Percent
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:FUEL TANK LEFT TIP TANK LEVEL
+    var_units: Percent
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:FUEL TANK RIGHT TIP TANK LEVEL
+    var_units: Percent
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:1
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:2
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:3
+    var_units: Pounds
+    var_type: f64
+    unreliable: true 
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:4
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:5
+    var_units: Pounds
+    var_type: f64
+    unreliable: true    
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:7
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:8
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:9
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:10
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
