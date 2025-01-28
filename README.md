@@ -1,5 +1,6 @@
 # YourControls_A2A_Comanche_250
 YourControls_A2A_Comanche_250
+# Made for MSFS2020 and not validated for 2024
 
 Profile to work with YourControls application and MSFS2020. If you find any bugs, please contact me on YourControls Discord: Dkgolfnut_Dennis
 # Ensure all Tablet config matches before starting  YC's session so they options will sync correctly 
